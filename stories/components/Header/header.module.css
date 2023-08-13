@@ -1,0 +1,17 @@
+.header {
+    font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.searchBox {
+    width: 2in;
+}
+
+.rightSide {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

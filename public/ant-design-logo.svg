@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 499.34 499.35">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-2 {
+        fill: url(#linear-gradient-3);
+      }
+
+      .cls-3 {
+        fill: url(#linear-gradient-4);
+      }
+
+      .cls-4 {
+        fill: url(#linear-gradient-2);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="-703.88" y1="788.84" x2="-702.72" y2="787.89" gradientTransform="translate(104125.78 156887.95) scale(147.73 -198.71)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4285eb"/>
+      <stop offset="1" stop-color="#2ec7ff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="-703.37" y1="789.59" x2="-703.76" y2="786.86" gradientTransform="translate(104125.78 156887.95) scale(147.73 -198.71)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#29cdff"/>
+      <stop offset=".38" stop-color="#148eff"/>
+      <stop offset="1" stop-color="#0a60ff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="-688.93" y1="786.42" x2="-690.26" y2="783.15" gradientTransform="translate(34359.16 61024.71) scale(49.2 -77.44)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fa816e"/>
+      <stop offset=".41" stop-color="#f74a5c"/>
+      <stop offset="1" stop-color="#f51d2c"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-4" x1="-690.4" y1="783.32" x2="-691.35" y2="779.53" gradientTransform="translate(32863.28 37092.68) scale(47.2 -47.16)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fa8e7d"/>
+      <stop offset=".51" stop-color="#f74a5c"/>
+      <stop offset="1" stop-color="#f51d2c"/>
+    </linearGradient>
+  </defs>
+  <g id="Page-1">
+    <g id="logo">
+      <g id="Group-28-Copy-5">
+        <g id="Group-27-Copy-3">
+          <g id="Group-25">
+            <g id="_2" data-name="2">
+              <path id="Shape" class="cls-1" d="M228.37,8.89L8.85,228.36c-11.8,11.8-11.8,30.86,0,42.66l219.52,219.48c11.8,11.8,30.86,11.8,42.67,0l92.04-92.02c10.57-10.57,10.57-27.7,0-38.27-10.57-10.57-27.71-10.57-38.27,0l-69.78,69.76c-2.94,2.94-7.4,2.94-10.33,0L69.39,254.7c-2.94-2.94-2.94-7.39,0-10.33L244.69,69.1c2.94-2.94,7.4-2.94,10.33,0l69.78,69.76c10.57,10.57,27.71,10.57,38.27,0,10.57-10.57,10.57-27.7,0-38.27L271.05,8.59c-11.85-11.54-30.92-11.45-42.68,.3Z"/>
+              <path id="Shape-2" data-name="Shape" class="cls-4" d="M228.37,8.89L8.85,228.36c-11.8,11.8-11.8,30.86,0,42.66l219.52,219.48c11.8,11.8,30.86,11.8,42.67,0l92.04-92.02c10.57-10.57,10.57-27.7,0-38.27-10.57-10.57-27.71-10.57-38.27,0l-69.78,69.76c-2.94,2.94-7.4,2.94-10.33,0L69.39,254.7c-2.94-2.94-2.94-7.39,0-10.33L244.69,69.1c7.31-6.31,19.25-19.09,36.77-22.08,13.02-2.22,27.26,2.67,42.72,14.67-10.33-10.33-28.04-28.03-53.14-53.11-11.85-11.54-30.92-11.45-42.68,.3Z"/>
+            </g>
+            <path id="Shape-3" data-name="Shape" class="cls-2" d="M384.32,339.79c10.57,10.57,27.71,10.57,38.27,0l67.89-67.88c11.8-11.8,11.8-30.86,0-42.66l-68.49-68.23c-10.59-10.55-27.74-10.54-38.31,.03-10.57,10.57-10.57,27.7,0,38.27l46.26,46.25c2.94,2.94,2.94,7.39,0,10.33l-45.63,45.62c-10.57,10.57-10.57,27.7,0,38.27Z"/>
+          </g>
+          <ellipse id="Combined-Shape" class="cls-3" cx="250.8" cy="250.79" rx="59.27" ry="59.26"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
