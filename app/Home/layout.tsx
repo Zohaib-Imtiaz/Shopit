@@ -1,9 +1,9 @@
 "use client";
-import { Header } from "@components/Header/Header";
+// import { Header } from "@components/Header/Header";
 import HeaderContent from "@components/HeaderContent/HeaderContent";
 import { Sider } from "@components/Sider/Sider";
 import { Layout } from "antd";
-import { Content } from "antd/es/layout/layout";
+import { Content, Footer, Header } from "antd/es/layout/layout";
 
 export default function RootLayout({
   children,
@@ -11,19 +11,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Layout>
-      <Sider
-        collapsible
-        collapsedWidth={0}
-        style={{
-          backgroundColor: "grey",
-        }}
-      >
-        <ol>
-          <li>Option 1</li>
-          <li>Option 2</li>
-        </ol>
-      </Sider>
+    // <Layout>
+    //   <Sider
+    //     collapsible
+    //     collapsedWidth={0}
+    //     style={{
+    //       backgroundColor: "grey",
+    //     }}
+    //   >
+    //     <ol>
+    //       <li>Option 1</li>
+    //       <li>Option 2</li>
+    //     </ol>
+    //   </Sider>
 
       <Layout style={{ minHeight: "100vh" }}>
         <Header
@@ -38,7 +38,10 @@ export default function RootLayout({
           <HeaderContent />
         </Header>
         <Content>{children}</Content>
+        <Footer>
+          Footer
+        </Footer>
       </Layout>
-    </Layout>
+    // </Layout>
   );
 }

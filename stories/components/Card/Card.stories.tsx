@@ -87,3 +87,19 @@ export const CoverImageCarouselCard: Story = {
     children: <ProductOverview {...ProductOverviewStories.Default.args} />,
   },
 };
+
+export const ProductCard: Story = {
+  args: {
+    title: "Cover Image",
+    cover: (
+      <Image
+        src={"/Edifier/R1280T/black s1.png"}
+        alt=""
+      />
+    ),
+    style:{
+      margin: "6px 8px"
+    },
+    children: <ProductOverview {...ProductOverviewStories.Default.args} />,
+  },
+};

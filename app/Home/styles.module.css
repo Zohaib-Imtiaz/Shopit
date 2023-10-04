@@ -1,0 +1,8 @@
+.row_heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 24px;
+    font-size: 24px;
+    margin-top: 8px;
+}
