@@ -29,6 +29,7 @@ export const CarouselDefault: Story = {
     arrows: true,
     nextArrow: <ArrowRightOutlined />,
     prevArrow: <ArrowLeftOutlined />,
+    centerMode:true,
     children: [
       <div key={1}>
         <Image
@@ -102,7 +103,7 @@ export const CarouselHome: Story = {
     slidesToShow: 1,
     style: {
       width: 'vw',
-  },
+    },
     arrows: true,
     nextArrow: <ArrowRightOutlined />,
     prevArrow: <ArrowLeftOutlined />,

@@ -12,6 +12,7 @@ const HeaderContent = () => {
         alt="LinkedIn"
         width={32}
         height={32}
+        preview={false}
       />
       <div className={classes.rightSide}>
         <Search className={classes.searchBox} />
