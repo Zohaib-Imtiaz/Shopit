@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-
 import { Card } from "./Card";
 import { Image, Tag } from "antd";
 import { Carousel } from "@components/Carousel/Carousel";
@@ -99,6 +98,23 @@ export const ProductCard: Story = {
     ),
     style:{
       margin: "6px 8px"
+    },
+    children: <ProductOverview {...ProductOverviewStories.Default.args} />,
+  },
+};
+
+export const ListingProductCard: Story = {
+  args: {
+    title: "Cover Image",
+    cover: (
+      <Image
+        src={"/Edifier/R1280T/black s1.png"}
+        alt=""
+        preview={false}
+      />
+    ),
+    style:{
+      margin: "6px 8px",
     },
     children: <ProductOverview {...ProductOverviewStories.Default.args} />,
   },
