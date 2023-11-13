@@ -8,10 +8,10 @@ const HeaderContent = () => {
   return (
     <div className={classes.header}>
       <Image
-        src={"/linkedin-color.svg"}
+        src={"/Logo.svg"}
         alt="LinkedIn"
-        width={32}
-        height={32}
+        width={150}
+        height={60}
         preview={false}
       />
       <div className={classes.rightSide}>
