@@ -1,17 +1,12 @@
+import { ProductOverviewType } from "@/TypesAndInterfaces/Product";
+import { localCurrency } from "@/utils/intl";
 import { Tag } from "antd";
 
-interface ProductOverviewProps {
-    name: string,
-    price: number,
-    discountedPrice: number,
-    discount: number,
-    currency?: string,
-}
 
-export const ProductOverview = ({name, price, discountedPrice, discount}: ProductOverviewProps) => {
+export const ProductOverview = ({title, price, discountedPrice, discount, currency}: ProductOverviewType) => {
   return (
     <>
-      <h2>{name}</h2>
+      <h2>{title}</h2>
       <div
         style={{
           display: "flex",
@@ -21,7 +16,7 @@ export const ProductOverview = ({name, price, discountedPrice, discount}: Produc
         <span>{discountedPrice}</span>
         <Tag color="green">{discount}% Off</Tag>
       </div>
-      <span>{price}</span>
+      <span>{localCurrency(price, currency)}</span>
     </>
   );
 };

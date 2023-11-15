@@ -12,7 +12,7 @@ const meta = {
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    name: {
+    title: {
       type: "string",
     },
     discount: {
@@ -32,18 +32,20 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    name: "Product Name",
+    title: "Product Name",
     price: 100,
     discountedPrice: 80,
     discount: 20,
+    currency: 'USD'
   },
 };
 
 export const Sample: Story = {
   args: {
-    name: "Product Name",
+    title: "Product Name",
     price: 100,
     discountedPrice: 80,
     discount: 20,
+    currency: 'USD'
   },
 };

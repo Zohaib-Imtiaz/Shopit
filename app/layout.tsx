@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
@@ -7,6 +7,8 @@ import { ConfigProvider, Layout } from "antd";
 // import { Layout } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import HeaderContent from "@components/HeaderContent/HeaderContent";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 
 // const inter = Inter({ subsets: ['latin'] })
 const monts = Montserrat({ subsets: ["latin"] });
@@ -24,28 +26,34 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={monts.className}>
-        <ConfigProvider theme={{token: {
-          fontFamily: monts.style.fontFamily
-        }}}>
+        <ConfigProvider
+          theme={{
+            token: {
+              fontFamily: monts.style.fontFamily,
+            },
+          }}
+        >
           {/* <StyledComponentsRegistry> */}
           <Layout style={{ minHeight: "100vh" }}>
-      <Header
-        style={{
-          color: "#fff",
-          height: 64,
-          paddingInline: 50,
-          lineHeight: "64px",
-          backgroundColor: "#7dbcea",
-        }}
-      >
-        <HeaderContent />
-      </Header>
-      <Content>{children}</Content>
-      <Footer>Footer</Footer>
-    </Layout>
+            <Header
+              style={{
+                color: "#fff",
+                height: 64,
+                paddingInline: 50,
+                lineHeight: "64px",
+                backgroundColor: "#7dbcea",
+              }}
+            >
+              <HeaderContent />
+            </Header>
+            <Content>
+              <Provider store={store} >{children}</Provider>
+            </Content>
+            <Footer>Footer</Footer>
+          </Layout>
 
-            {/* {children} */}
-            {/* </StyledComponentsRegistry> */}
+          {/* {children} */}
+          {/* </StyledComponentsRegistry> */}
         </ConfigProvider>
       </body>
     </html>

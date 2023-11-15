@@ -47,8 +47,8 @@ export const ApplicationHeader: Story = {
       return (
         <div className={classes.header}>
           <Image
-            src={"/linkedin-color.svg"}
-            alt="LinkedIn"
+            src={"/Logo.svg"}
+            alt="Logo placeholder"
             width={32}
             height={32}
           />

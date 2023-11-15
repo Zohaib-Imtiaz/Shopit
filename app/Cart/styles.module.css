@@ -12,5 +12,10 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
+}
+
+.flex_column {
+    display: flex;
+    flex-direction: column;
 }

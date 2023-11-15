@@ -20,3 +20,10 @@
 .flex_center > input {
     width: 34px;
 }
+
+.flex_column_center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}

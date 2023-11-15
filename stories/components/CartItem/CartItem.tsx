@@ -3,14 +3,11 @@ import { Button } from "@components/Button/Button";
 import { Col, Image, Input, Row, Skeleton, Typography } from "antd";
 import { useState } from "react";
 import classes from "./CartItem.module.css";
+import { CartItemInterface } from "@/TypesAndInterfaces/Cart";
 
 const { Text, Title } = Typography;
 
-interface CartItemProps {
-  image?: string;
-  title?: string;
-  price?: number;
-  quantity?: number;
+interface CartItemProps extends CartItemInterface {
   onAdd?: (newQuantity: number) => void;
   onSubtract?: (newQuantity: number) => void;
   stock?: number;
@@ -43,14 +40,16 @@ export const CartItem = ({
     <Row gutter={[32, 32]} className={classes.item}>
       <Col span={8}>
         {image ? (
-          <Image src={image} alt="item" />
+          <Image src={image} alt="item" width={100} preview={false} />
         ) : (
           <Skeleton.Image active={false} />
         )}
       </Col>
       <Col span={8}>
-        <Title level={5}>{title ?? "Product Name"}</Title>
-        <Text>{price ?? "$ Price"}</Text>
+        <div className={classes.flex_column_center}>
+          <Title level={5}>{title ?? "Product Name"}</Title>
+          <Text>{price ?? "$ Price"}</Text>
+        </div>
       </Col>
       <Col span={8}>
         <div className={classes.flex_center}>
@@ -58,7 +57,7 @@ export const CartItem = ({
             type="primary"
             icon={<MinusOutlined />}
             onClick={reduce}
-            disabled={quanty === 0}
+            disabled={quanty === 1}
           />
           <Input value={quanty} />
           <Button
