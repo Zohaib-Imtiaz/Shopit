@@ -5,38 +5,35 @@ import {
   FallOutlined,
 } from "@ant-design/icons";
 import { Row, Col, InputNumber, Button, Typography, Radio, Space } from "antd";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   FilterTypes,
   SortingTypes,
   FilterTypesEnum,
-  PriceFilterEnum,
+  RangeFilterEnum,
   SortingEnum,
   SortingTypesEnum,
+  defaultFilters,
+  defaultSorting,
 } from "./Types";
 import { RadioChangeEventTarget } from "antd/es/radio/interface";
 const { Title, Text } = Typography;
 
 interface FilterProps {
+  initialFilters?: FilterTypes;
+  initialSorts?: SortingTypes;
   returnFilters?: Function;
   returnSortings?: Function;
 }
 
-const defaultFilters: FilterTypes = {
-  price: {
-    [PriceFilterEnum.MIN]: 0,
-    [PriceFilterEnum.MAX]: null,
-  },
-};
-
-const defaultSorting: SortingTypes = {
-  date: undefined,
-  price: undefined,
-};
-
-export const FiltersAndSorts = ({ returnFilters, returnSortings }: FilterProps) => {
-  const [filters, setFilters] = useState(defaultFilters);
-  const [sortings, setSortings] = useState(defaultSorting);
+export const FiltersAndSorts = ({
+  initialFilters,
+  initialSorts,
+  returnFilters,
+  returnSortings,
+}: FilterProps) => {
+  const [filters, setFilters] = useState(initialFilters ?? defaultFilters);
+  const [sortings, setSortings] = useState(initialSorts ?? defaultSorting);
 
   const applyFilters = () => {
     if (returnFilters instanceof Function) {
@@ -83,6 +80,12 @@ export const FiltersAndSorts = ({ returnFilters, returnSortings }: FilterProps) 
     }
   };
 
+  useEffect(() => {
+    setFilters(initialFilters?? defaultFilters)
+    setSortings(initialSorts?? defaultSorting)
+    console.log(initialFilters, initialSorts)
+  }, [initialFilters, initialSorts])
+
   return (
     <Space direction="vertical" size="small">
       <Row gutter={[32, 0]} align={"bottom"}>
@@ -111,11 +114,11 @@ export const FiltersAndSorts = ({ returnFilters, returnSortings }: FilterProps) 
             style={{ width: "150px" }}
             min={0}
             max={100000}
-            value={filters.price.min_price}
+            value={filters.price.min}
             onChange={(value) =>
               updateFilters({
                 filter: FilterTypesEnum.PRICE,
-                name: PriceFilterEnum.MIN,
+                name: RangeFilterEnum.MIN,
                 value,
               })
             }
@@ -128,11 +131,11 @@ export const FiltersAndSorts = ({ returnFilters, returnSortings }: FilterProps) 
             style={{ width: "150px" }}
             min={1}
             max={100000}
-            value={filters.price.max_price}
+            value={filters.price.max}
             onChange={(value) =>
               updateFilters({
                 filter: FilterTypesEnum.PRICE,
-                name: PriceFilterEnum.MAX,
+                name: RangeFilterEnum.MAX,
                 value,
               })
             }

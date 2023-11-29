@@ -1,30 +1,42 @@
 export enum SortingTypesEnum {
-    DATE='date',
-    PRICE='price',
+  DATE = "date",
+  PRICE = "price",
 }
 
 export enum SortingEnum {
-    ASC = 'asc',
-    DESC = 'desc',
+  ASC = "asc",
+  DESC = "desc",
 }
 
 export type SortingTypes = {
-    [value in SortingTypesEnum]: `${SortingEnum}` | undefined
-}
+  [value in SortingTypesEnum]: `${SortingEnum}` | undefined;
+};
 
 export enum FilterTypesEnum {
-    PRICE='price'
+  PRICE = "price",
 }
 
 export type FilterTypes = {
-    [value in FilterTypesEnum]: any;
-}
+  [value in FilterTypesEnum]: any;
+};
 
-export enum PriceFilterEnum {
-    MIN = 'min_price',
-    MAX = 'max_price'
+export enum RangeFilterEnum {
+  MIN = "min",
+  MAX = "max",
 }
 
 export type PriceFilter = {
-    [value in PriceFilterEnum]: number | undefined
-}
+  [value in RangeFilterEnum]: number | null;
+};
+
+export const defaultFilters: FilterTypes = {
+  price: {
+    [RangeFilterEnum.MIN]: 0,
+    [RangeFilterEnum.MAX]: null,
+  },
+};
+
+export const defaultSorting: SortingTypes = {
+  date: undefined,
+  price: undefined,
+};
