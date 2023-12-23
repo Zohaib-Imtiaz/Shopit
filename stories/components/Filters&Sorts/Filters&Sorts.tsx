@@ -4,7 +4,7 @@ import {
   RiseOutlined,
   FallOutlined,
 } from "@ant-design/icons";
-import { Row, Col, InputNumber, Button, Typography, Radio, Space } from "antd";
+import { Row, Col, InputNumber, Button, Typography, Radio, Space, Checkbox } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import {
   FilterTypes,
@@ -17,6 +17,10 @@ import {
   defaultSorting,
 } from "./Types";
 import { RadioChangeEventTarget } from "antd/es/radio/interface";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { cloneDeep } from "lodash";
+import { CategoriesEnum, checkboxes, defaultCategories } from "./mockData";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 const { Title, Text } = Typography;
 
 interface FilterProps {
@@ -26,19 +30,42 @@ interface FilterProps {
   returnSortings?: Function;
 }
 
+const filterRegex = new RegExp(/(filter).+?/);
+const sortRegex = new RegExp(/(sort).+?/);
+
 export const FiltersAndSorts = ({
   initialFilters,
   initialSorts,
   returnFilters,
   returnSortings,
 }: FilterProps) => {
-  const [filters, setFilters] = useState(initialFilters ?? defaultFilters);
-  const [sortings, setSortings] = useState(initialSorts ?? defaultSorting);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const [filters, setFilters] = useState(defaultFilters);
+  const [sortings, setSortings] = useState(defaultSorting);
+  const [categories, setCategories] = useState(defaultCategories);
 
   const applyFilters = () => {
     if (returnFilters instanceof Function) {
       returnFilters(filters);
     }
+    const queryParams = new URLSearchParams(searchParams.toString());
+
+    Object.keys(filters).forEach((filter) => {
+      Object.keys(filters[filter as FilterTypesEnum]).forEach((range) => {
+        if (filters[filter as FilterTypesEnum][range] !== null) {
+          queryParams.set(
+            `filter.${range}.${filter}`,
+            filters[filter as FilterTypesEnum][range]
+          );
+        } else {
+          queryParams.delete(`filter.${range}.${filter}`);
+        }
+      });
+    });
+    replace(`${pathname}?${queryParams.toString()}`);
   };
 
   const clearFilters = useCallback(() => {
@@ -63,6 +90,19 @@ export const FiltersAndSorts = ({
     if (returnSortings instanceof Function) {
       returnSortings(sortings);
     }
+    const queryParams = new URLSearchParams(searchParams.toString());
+    Object.keys(sortings).forEach((sorting) => {
+      console.log(sorting);
+      if (sortings[sorting as SortingTypesEnum] !== SortingEnum.NONE) {
+        queryParams.set(
+          `sort.${sorting}`,
+          sortings[sorting as SortingTypesEnum]
+        );
+      } else {
+        queryParams.delete(`sort.${sorting}`);
+      }
+    });
+    replace(`${pathname}?${queryParams.toString()}`);
   };
 
   const clearSortings = useCallback(() => {
@@ -80,11 +120,74 @@ export const FiltersAndSorts = ({
     }
   };
 
+  const applyCategories = () => {
+    // if (returnSortings instanceof Function) {
+    //   returnSortings(sortings);
+    // }
+    const queryParams = new URLSearchParams(searchParams.toString());
+    Object.keys(categories).forEach((category) => {
+      console.log(category);
+      queryParams.delete(category);
+
+      if (categories[category as CategoriesEnum].length > 0) {
+        categories[category as CategoriesEnum].forEach((value: CheckboxValueType) => {
+          queryParams.append(
+            category,
+            value.toString()
+          );
+        })
+      } else {
+      }
+    });
+    replace(`${pathname}?${queryParams.toString()}`);
+  };
+  
+  const clearCategories = useCallback(() => {
+    setSortings(defaultSorting);
+    if (returnSortings instanceof Function) {
+      returnSortings(defaultSorting);
+    }
+  }, [returnSortings]);
+
+  const updateCategories = (checkedValues: CheckboxValueType[], category: string) => {
+    console.log(checkedValues)
+    // if (e.name) {
+      const temp = { ...categories };
+      temp[category as CategoriesEnum] = checkedValues;
+      setCategories(temp)
+    // }
+  };
+
   useEffect(() => {
-    setFilters(initialFilters?? defaultFilters)
-    setSortings(initialSorts?? defaultSorting)
-    console.log(initialFilters, initialSorts)
-  }, [initialFilters, initialSorts])
+    const urlFilters: any = [];
+    const urlsorts: any = [];
+    searchParams.forEach((value, key) => {
+      if (filterRegex.test(key)) {
+        urlFilters.push({ [key]: value });
+      }
+      if (sortRegex.test(key)) {
+        urlsorts.push({ [key]: value });
+      }
+    });
+    const tempFilters = cloneDeep(defaultFilters);
+    const tempSorts = cloneDeep(defaultSorting);
+    for (let filter of urlFilters) {
+      let urlFilterKey = Object.keys(filter)[0];
+      const filterKeyParts = urlFilterKey.split(".");
+      const filterKey = filterKeyParts[2] as FilterTypesEnum;
+      console.log(filterKey);
+      tempFilters[filterKey][filterKeyParts[1]] = filter[urlFilterKey];
+    }
+    for (let sort of urlsorts) {
+      let urlSortKey = Object.keys(sort)[0];
+      const sortKeyParts = urlSortKey.split(".");
+      const sortKey = sortKeyParts[1] as SortingTypesEnum;
+      tempSorts[sortKey] = sort[urlSortKey];
+    }
+    console.log(tempFilters);
+    setFilters(tempFilters);
+    setSortings(tempSorts);
+  }, [searchParams]);
 
   return (
     <Space direction="vertical" size="small">
@@ -114,7 +217,7 @@ export const FiltersAndSorts = ({
             style={{ width: "150px" }}
             min={0}
             max={100000}
-            value={filters.price.min}
+            value={filters.price.min === null ? null : +filters.price.min}
             onChange={(value) =>
               updateFilters({
                 filter: FilterTypesEnum.PRICE,
@@ -131,7 +234,7 @@ export const FiltersAndSorts = ({
             style={{ width: "150px" }}
             min={1}
             max={100000}
-            value={filters.price.max}
+            value={filters.price.max === null ? null : +filters.price.max}
             onChange={(value) =>
               updateFilters({
                 filter: FilterTypesEnum.PRICE,
@@ -140,8 +243,8 @@ export const FiltersAndSorts = ({
               })
             }
             status={
-              filters.price.max_price <= filters.price.min_price &&
-              filters.price.max_price !== null
+              filters.price.max <= filters.price.min &&
+              filters.price.max !== null
                 ? "error"
                 : ""
             }
@@ -170,60 +273,52 @@ export const FiltersAndSorts = ({
         name={SortingTypesEnum.DATE}
         style={{ width: "100%" }}
         onChange={(e) => updateSortings(e.target)}
+        value={sortings.date}
       >
         <Radio.Button value={SortingEnum.ASC}>
-          <SortAscendingOutlined />
-          Asc
+          Oldest
         </Radio.Button>
         <Radio.Button value={SortingEnum.DESC}>
-          <SortDescendingOutlined /> Desc
+          Latest
         </Radio.Button>
       </Radio.Group>
-      {/* <Row gutter={[32, 0]}>
-        <Col span={24}>
-          <Button
-            block
-            type="text"
-            icon={<SortAscendingOutlined />}
-            onClick={(e) => updateFilters(e)}
-          >
-            Ascending
-          </Button>
-        </Col>
-        <Col span={24}>
-          <Button block type="text" icon={<SortDescendingOutlined />}>
-            Descending
-          </Button>
-        </Col>
-      </Row> */}
       <Text strong>Price</Text>
       <Radio.Group
         name={SortingTypesEnum.PRICE}
         style={{ width: "100%" }}
         onChange={(e) => updateSortings(e.target)}
+        value={sortings.price}
       >
         <Radio.Button value={SortingEnum.ASC}>
-          <RiseOutlined />
+          {/* <RiseOutlined /> */}
           Low to High
         </Radio.Button>
         <Radio.Button value={SortingEnum.DESC}>
-          <FallOutlined />
+          {/* <FallOutlined /> */}
           High to Low
         </Radio.Button>
       </Radio.Group>
-
-      {/* <Row gutter={[32, 0]}>
-        <Col span={24}>
-          <Button block type="text" icon={<RiseOutlined />}>
-            Low to High
+      <Row gutter={[32, 0]} align={"bottom"}>
+        <Col span={16}>
+          <Title level={2} style={{ margin: 0 }}>
+            Categories
+          </Title>
+        </Col>
+        <Col span={4}>
+          <Button size="small" type="text" onClick={clearCategories}>
+            Reset
           </Button>
         </Col>
-        <Col span={24}>
-          <Button block type="text" icon={<FallOutlined />}>
-            High to Low
+        <Col span={4}>
+          <Button size="small" type="text" onClick={applyCategories}>
+            Apply
           </Button>
         </Col>
-      </Row> */}
+      </Row>
+      <Text strong>Brand</Text>
+      <Checkbox.Group options={checkboxes}  style={{ display: "grid" }} onChange={(checkedValues) => updateCategories(checkedValues, CategoriesEnum.BRAND)}/>
+      <Text strong>Color</Text>
+      <Checkbox.Group options={checkboxes}  style={{ display: "grid" }} onChange={(checkedValues) => updateCategories(checkedValues, CategoriesEnum.COLOR)}/>
     </Space>
   );
 };

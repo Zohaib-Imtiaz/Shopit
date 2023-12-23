@@ -6,10 +6,11 @@ export enum SortingTypesEnum {
 export enum SortingEnum {
   ASC = "asc",
   DESC = "desc",
+  NONE = 'none'
 }
 
 export type SortingTypes = {
-  [value in SortingTypesEnum]: `${SortingEnum}` | undefined;
+  [value in SortingTypesEnum]: SortingEnum;
 };
 
 export enum FilterTypesEnum {
@@ -31,12 +32,12 @@ export type PriceFilter = {
 
 export const defaultFilters: FilterTypes = {
   price: {
-    [RangeFilterEnum.MIN]: 0,
+    [RangeFilterEnum.MIN]: null,
     [RangeFilterEnum.MAX]: null,
   },
 };
 
 export const defaultSorting: SortingTypes = {
-  date: undefined,
-  price: undefined,
+  date: SortingEnum.NONE,
+  price: SortingEnum.NONE,
 };
