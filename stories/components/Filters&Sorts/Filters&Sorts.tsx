@@ -4,7 +4,16 @@ import {
   RiseOutlined,
   FallOutlined,
 } from "@ant-design/icons";
-import { Row, Col, InputNumber, Button, Typography, Radio, Space, Checkbox } from "antd";
+import {
+  Row,
+  Col,
+  InputNumber,
+  Button,
+  Typography,
+  Radio,
+  Space,
+  Checkbox,
+} from "antd";
 import { useCallback, useEffect, useState } from "react";
 import {
   FilterTypes,
@@ -18,7 +27,7 @@ import {
 } from "./Types";
 import { RadioChangeEventTarget } from "antd/es/radio/interface";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { cloneDeep } from "lodash";
+import { cloneDeep, has } from "lodash";
 import { CategoriesEnum, checkboxes, defaultCategories } from "./mockData";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 const { Title, Text } = Typography;
@@ -32,6 +41,7 @@ interface FilterProps {
 
 const filterRegex = new RegExp(/(filter).+?/);
 const sortRegex = new RegExp(/(sort).+?/);
+const multiFieldRegex = new RegExp(/([A-z])\w+?/);
 
 export const FiltersAndSorts = ({
   initialFilters,
@@ -130,44 +140,55 @@ export const FiltersAndSorts = ({
       queryParams.delete(category);
 
       if (categories[category as CategoriesEnum].length > 0) {
-        categories[category as CategoriesEnum].forEach((value: CheckboxValueType) => {
-          queryParams.append(
-            category,
-            value.toString()
-          );
-        })
+        categories[category as CategoriesEnum].forEach(
+          (value: CheckboxValueType) => {
+            queryParams.append(category, value.toString());
+          }
+        );
       } else {
       }
     });
     replace(`${pathname}?${queryParams.toString()}`);
   };
-  
+
   const clearCategories = useCallback(() => {
-    setSortings(defaultSorting);
+    setCategories(defaultCategories);
     if (returnSortings instanceof Function) {
-      returnSortings(defaultSorting);
+      setCategories(defaultCategories);
     }
   }, [returnSortings]);
 
-  const updateCategories = (checkedValues: CheckboxValueType[], category: string) => {
-    console.log(checkedValues)
+  const updateCategories = (
+    checkedValues: CheckboxValueType[],
+    category: string
+  ) => {
+    console.log(checkedValues, categories);
     // if (e.name) {
-      const temp = { ...categories };
-      temp[category as CategoriesEnum] = checkedValues;
-      setCategories(temp)
+    const temp = { ...categories };
+    temp[category as CategoriesEnum] = checkedValues;
+    setCategories(temp);
     // }
   };
 
   useEffect(() => {
     const urlFilters: any = [];
-    const urlsorts: any = [];
+    const urlSorts: any = [];
+    const urlMultiFields: any = {};
     searchParams.forEach((value, key) => {
       if (filterRegex.test(key)) {
         urlFilters.push({ [key]: value });
       }
       if (sortRegex.test(key)) {
-        urlsorts.push({ [key]: value });
+        urlSorts.push({ [key]: value });
       }
+      if (multiFieldRegex.test(key)) {
+        if (!has(urlMultiFields, key)) {
+          urlMultiFields[key] = [];
+        }
+        urlMultiFields[key].push(value);
+      }
+      console.log("Search Param");
+      console.log("Key:", key, "Value", value);
     });
     const tempFilters = cloneDeep(defaultFilters);
     const tempSorts = cloneDeep(defaultSorting);
@@ -178,7 +199,7 @@ export const FiltersAndSorts = ({
       console.log(filterKey);
       tempFilters[filterKey][filterKeyParts[1]] = filter[urlFilterKey];
     }
-    for (let sort of urlsorts) {
+    for (let sort of urlSorts) {
       let urlSortKey = Object.keys(sort)[0];
       const sortKeyParts = urlSortKey.split(".");
       const sortKey = sortKeyParts[1] as SortingTypesEnum;
@@ -187,6 +208,7 @@ export const FiltersAndSorts = ({
     console.log(tempFilters);
     setFilters(tempFilters);
     setSortings(tempSorts);
+    setCategories(urlMultiFields);
   }, [searchParams]);
 
   return (
@@ -275,12 +297,8 @@ export const FiltersAndSorts = ({
         onChange={(e) => updateSortings(e.target)}
         value={sortings.date}
       >
-        <Radio.Button value={SortingEnum.ASC}>
-          Oldest
-        </Radio.Button>
-        <Radio.Button value={SortingEnum.DESC}>
-          Latest
-        </Radio.Button>
+        <Radio.Button value={SortingEnum.ASC}>Oldest</Radio.Button>
+        <Radio.Button value={SortingEnum.DESC}>Latest</Radio.Button>
       </Radio.Group>
       <Text strong>Price</Text>
       <Radio.Group
@@ -316,9 +334,23 @@ export const FiltersAndSorts = ({
         </Col>
       </Row>
       <Text strong>Brand</Text>
-      <Checkbox.Group options={checkboxes}  style={{ display: "grid" }} onChange={(checkedValues) => updateCategories(checkedValues, CategoriesEnum.BRAND)}/>
+      <Checkbox.Group
+        options={checkboxes}
+        value={categories.brand}
+        style={{ display: "grid" }}
+        onChange={(checkedValues) =>
+          updateCategories(checkedValues, CategoriesEnum.BRAND)
+        }
+      />
       <Text strong>Color</Text>
-      <Checkbox.Group options={checkboxes}  style={{ display: "grid" }} onChange={(checkedValues) => updateCategories(checkedValues, CategoriesEnum.COLOR)}/>
+      <Checkbox.Group
+        options={checkboxes}
+        style={{ display: "grid" }}
+        value={categories.brand}
+        onChange={(checkedValues) =>
+          updateCategories(checkedValues, CategoriesEnum.COLOR)
+        }
+      />
     </Space>
   );
 };

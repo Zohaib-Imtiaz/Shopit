@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Col, Row } from "antd";
 import classes from "./styles.module.css";
@@ -7,17 +7,11 @@ import { ListingProductCard } from "@components/Card/Card.stories";
 import { FiltersAndSorts } from "@components/Filters&Sorts/Filters&Sorts";
 
 const AllProducts = () => {
-
   return (
     <div className={classes.main}>
       <Row gutter={[64, 64]}>
         <Col lg={6}>
-          <FiltersAndSorts
-            // initialFilters={filters}
-            // initialSorts={sorts}
-            // returnFilters={(f: FilterTypes) => setFilters(f)}
-            // returnSortings={(s: SortingTypes) => setSorts(s)}
-          />
+          <FiltersAndSorts />
         </Col>
         <Col lg={18}>
           <Row>
