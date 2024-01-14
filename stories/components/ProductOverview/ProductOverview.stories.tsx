@@ -35,7 +35,7 @@ export const Default: Story = {
     title: "Product Name",
     price: 100,
     discountedPrice: 80,
-    discount: 20,
+    discount: '20',
     currency: 'USD'
   },
 };
@@ -45,7 +45,7 @@ export const Sample: Story = {
     title: "Product Name",
     price: 100,
     discountedPrice: 80,
-    discount: 20,
+    discount: '20',
     currency: 'USD'
   },
 };

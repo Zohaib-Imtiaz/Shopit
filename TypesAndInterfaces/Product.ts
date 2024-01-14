@@ -8,7 +8,7 @@ export interface ProductInterface {
   quantity?: number;
   category?: string;
   discountedPrice?: number,
-  discount?: number,
+  discount?: string,
 }
 
 export type ProductOverviewType = Omit<ProductInterface, 'selling' | 'quantity' | 'code' | 'images'| 'category'>

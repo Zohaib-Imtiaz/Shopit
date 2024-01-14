@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 import currencies from "../data/currencies";
+import ColorSelector from "../custom-component/color-picker";
+import ColorLayout from "../component-layout/colorLayout";
 
 export default defineType({
   type: "document",
@@ -21,7 +23,7 @@ export default defineType({
       name: "currency",
       title: "Currency",
       type: "string",
-      initialValue: 'USD',
+      initialValue: "USD",
       validation: (Rule) => Rule.required(),
       options: {
         list: [...currencies],
@@ -32,6 +34,29 @@ export default defineType({
       title: "Price",
       type: "number",
       validation: (Rule) => Rule.positive(),
+    }),
+    defineField({
+      name: "discountedPrice",
+      title: "Discounted Price",
+      type: "number",
+      validation: (Rule) => Rule.positive(),
+    }),
+    defineField({
+      name: "colors",
+      title: "Colors",
+      type: "array",
+      of: [
+        defineField({
+          name: "color",
+          type: "string",
+          components: {
+            input: ColorSelector,
+          },
+        }),
+      ],
+      options: {
+        layout: "grid",
+      },
     }),
     defineField({
       name: "selling",
@@ -58,11 +83,11 @@ export default defineType({
       validation: (Rule) => Rule.min(3),
     }),
     defineField({
-        name: "category",
-        title: "Category",
-        type: "reference",
-        to: [{type: "category"}],
-        validation: (Rule) => Rule.required(),
-    })
+      name: "category",
+      title: "Category",
+      type: "reference",
+      to: [{ type: "category" }],
+      validation: (Rule) => Rule.required(),
+    }),
   ],
 });
