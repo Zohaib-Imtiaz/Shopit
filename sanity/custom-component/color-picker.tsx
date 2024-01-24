@@ -13,7 +13,7 @@ const ColorSelector = (props: any) => {
     [onChange]
   );
 
-  return <ColorPicker onChange={handleChange} allowClear size="large" />;
+  return <ColorPicker onChange={handleChange} allowClear size="large" showText />;
 };
 
 export default ColorSelector;

@@ -16,7 +16,7 @@ const App = () => {
   return (
     <>
       <Carousel {...CarouselHome.args} />
-      <div>
+      {/* <div>
         <div className={classes.row_heading}>
           <span>Best Selling</span>
           <Button type="text">
@@ -55,12 +55,12 @@ const App = () => {
             <Card {...ProductCard.args} />
           </div>
         </Carousel>
-      </div>
+      </div> */}
       <div>
         <div className={classes.row_heading}>
           <span>Latest Items</span>
           <Button type="text">
-            <a> See More <ArrowRightOutlined /> </a>
+            <a href="All?sort.date=desc"> See More <ArrowRightOutlined /> </a>
           </Button>
         </div>
         <Carousel {...CarouselCardRow.args}>

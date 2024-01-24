@@ -10,6 +10,8 @@ import {deskTool} from 'sanity/desk'
 import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schema'
 import { dashboardTool, projectInfoWidget, projectUsersWidget } from '@sanity/dashboard'
+import StudioLogo from './sanity/studio/logo'
+import myTheme from './sanity/studio/theme'
 
 export default defineConfig({
   basePath: '/studio',
@@ -24,4 +26,10 @@ export default defineConfig({
     visionTool({defaultApiVersion: apiVersion}),
     dashboardTool({widgets: [projectInfoWidget(), projectUsersWidget()]})
   ],
+  theme: myTheme,
+  studio: {
+    components: {
+      logo: StudioLogo
+    }
+  }
 })

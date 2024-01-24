@@ -6,14 +6,17 @@ import { Card } from "@components/Card/Card";
 import { ListingProductCard } from "@components/Card/Card.stories";
 import { FiltersAndSorts } from "@components/Filters&Sorts/Filters&Sorts";
 import { client } from "@/sanity/lib/client";
-import { useCallback, useEffect, useState } from "react";
+import { Key, useCallback, useEffect, useState } from "react";
 import Loader from "@components/Loader/Loader";
 import { ProductOverview } from "@components/ProductOverview/ProductOverview";
 import { discountPercentage } from "@/utils/formulas";
+import { Carousel } from "@components/Carousel/Carousel";
+import { ArrowRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
 
 export async function getData() {
-  const query = `*[_type=='Product'] | order(_updatedAt)
-  {title, price, images[] {
+  const query = `*[_type=='Product' && selling==true] | order(_updatedAt)
+  {_id, title, price, images[] {
       "url": asset->url,
       "metadata": {
         "dimensions": asset->metadata.dimensions,
@@ -29,6 +32,9 @@ export async function getData() {
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const router = useRouter();
+
   const sanityGetData = useCallback(async () => {
     setLoading(true);
     const data = await getData();
@@ -52,29 +58,47 @@ const AllProducts = () => {
             <Row>
               {products.map((product: any, i: number) => {
                 return (
-                  <Col key={i}>
+                  <Col key={product._id}>
                     <Card
                       className={classes.product}
                       style={{
                         margin: "6px 8px",
                       }}
-                      title={product.title}
+                      // title={product.title}
                       cover={
-                        <Image
-                          src={product.images[0].url}
-                          alt=""
-                          preview={false}
-                        />
+                        <Carousel
+                          slidesToShow={1}
+                          arrows={true}
+                          nextArrow={<ArrowRightOutlined />}
+                          prevArrow={<ArrowLeftOutlined />}
+                        >
+                          {product.images.map(
+                            (
+                              img: { url: string | undefined },
+                              i: Key | null | undefined
+                            ) => {
+                              return (
+                                <div key={i} style={{ width: "250px" }}>
+                                  <Image src={img.url} alt="" />
+                                </div>
+                              );
+                            }
+                          )}
+                        </Carousel>
                       }
                       onClick={() => {
-                        console.log("Clicked:", i);
+                        console.log("HERE");
+                        router.push(`/Product/${product._id}`);
                       }}
                     >
                       <ProductOverview
                         title={product.title}
                         price={product.price}
                         discountedPrice={product.discountedPrice}
-                        discount={discountPercentage(product.price, product.discountedPrice)}
+                        discount={discountPercentage(
+                          product.price,
+                          product.discountedPrice
+                        )}
                         currency={product.currency}
                       />
                     </Card>
